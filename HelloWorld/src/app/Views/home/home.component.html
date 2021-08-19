@@ -1,0 +1,13 @@
+<p>This is home page</p>
+
+<h1>{{welcome}}</h1>
+
+<div class="row">
+    <label class="col-md-1" for="fullName">Họ và tên</label>
+    <div class="col-md-4">
+        <input class="col-md-4" type="text" class="form-control" name="" id="fullName" [(ngModel)]="fullName">
+    </div>
+    <div class="col-md-2"><button type="button" class="btn btn-primary" (click)="SayHello()">Say hello</button></div>
+</div>
+
+<span appTest>Xin chào bạn:&nbsp;{{fullName|uppercase}}</span>

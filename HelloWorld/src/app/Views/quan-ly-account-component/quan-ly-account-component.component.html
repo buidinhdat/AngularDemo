@@ -1,0 +1,357 @@
+<div class="container">
+    <div class="form-group">
+        <h1> Quản lý tài khoản</h1>
+    </div>
+
+    <div class="form-group">
+        <div class="row">
+            <label for="userName" class="col-md-2">Tên đăng nhập <span style="color:red">*</span></label>
+            <!-- Có 2 hướng xử lý , xử lý validate trên html, và trên TS  ,đề xuất valid trên TS-->
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="userName" required="true" [(ngModel)]="formSearch.userName" />
+                <div *ngIf="errorFormSearch.userName!=null&&errorFormSearch.userName!=''">
+                    <span style="color:red"> {{errorFormSearch.userName}}</span>
+                </div>
+
+            </div>
+            <div class="col-md-2"> Email <span style="color:red">*</span></div>
+            <div class="col-md-4">
+                <input type="text" id="email" class="form-control" required [(ngModel)]="formSearch.email" />
+                <div *ngIf="errorFormSearch.email!=null&&errorFormSearch.email!=''">
+                    <span style="color:red"> {{errorFormSearch.email}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2"> Số điện thoại <span style="color:red">*</span></label>
+            <div class="col-md-4">
+                <input type="text" id="phoneNumber" class="form-control" required maxlength="10" minlength="10" [(ngModel)]="formSearch.phoneNumber" />
+                <div *ngIf="errorFormSearch.phoneNumber!=null&&errorFormSearch.phoneNumber!=''">
+                    <span style="color:red"> {{errorFormSearch.phoneNumber}}</span>
+                </div>
+            </div>
+            <label class="col-md-2">Trạng thái <span style="color:red">*</span></label>
+            <div class="col-md-4">
+                <select class="custom-select" id="status" required [(ngModel)]="formSearch.status">
+          <option value="1">Đang hoạt động</option>
+          <option value="0">Không hoạt động</option>
+        </select>
+                <div *ngIf="errorFormSearch.status!=null&&errorFormSearch.status!=''">
+                    <span style="color:red"> {{errorFormSearch.status}} </span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-md-2">Ngày kích hoạt từ <span style="color:red">*</span></label>
+            <div class="col-md-4">
+                <input type="date" id="fromActiveDate" class="form-control" pattern="dd/mm/yyyy" [(ngModel)]="formSearch.fromActiveDate" />
+                <div *ngIf="errorFormSearch.fromActiveDate!=null&&errorFormSearch.fromActiveDate!=''">
+                    <span style="color:red"> {{errorFormSearch.fromActiveDate}}</span>
+                </div>
+            </div>
+            <label class="col-md-2">Ngày kích hoạt đến <span style="color:red">*</span></label>
+            <div class="col-md-4">
+                <input type="date" id="toActiveDate" class="form-control" pattern="dd/mm/yyyy" [(ngModel)]="formSearch.toActiveDate" />
+                <div *ngIf="errorFormSearch.toActiveDate!=null&&errorFormSearch.toActiveDate!=''">
+                    <span style="color:red"> {{errorFormSearch.toActiveDate}}</span>
+                </div>
+            </div>
+        </div>
+        <div style="padding-top:10px"></div>
+        <div class="row">
+            <div class="col-md-12" style="text-align: right;">
+                <button type="button" class="btn btn-primary" (click)="search()"><i class="fa fa-search"></i> Tìm kiếm</button>
+                <button type="button" style="margin-left: 20px;" class="btn btn-info" (click)="loadLazyCustomer(1,false,false)"><i class="fa fa-search"></i> Tìm kiếm test lazy</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Angular datatable jquery-->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Angular Datatable JQuery</h1>
+        </div>
+        <div class="col-md-12">
+            <table id="tblAccount" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class=" table table-bordered table-ellipsis table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><span>ID</span></th>
+                        <th><span>USER_NAME</span></th>
+                        <th><span>PASSWORD</span></th>
+                        <th><span>FIRST_NAME</span></th>
+                        <th><span>LAST_NAME</span></th>
+                        <th><span>FULL_NAME</span></th>
+                        <th><span>BIRTH_DAY</span></th>
+                        <th><span>EMAIL</span></th>
+                        <th><span>STATUS</span></th>
+                        <th><span>AVATAR</span></th>
+                        <th><span>PHONE_NUMBER</span></th>
+                        <th><span>ADDRESS</span></th>
+                        <th><span>SHIP_ADDRESS</span></th>
+                        <th><span>SHIP_PHONE_NUMBER</span></th>
+                        <th><span>CREATE_DATE</span></th>
+                        <th><span>MODIFY_DATE</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of  customers">
+                        <td>{{item.id}}</td>
+                        <td>{{item.userName}}</td>
+                        <td>{{item.password}}</td>
+                        <td>{{item.firstName}}</td>
+                        <td>{{item.lastName}}</td>
+                        <td>{{item.fullName}}</td>
+                        <td>{{item.birthday|date:'dd/MM/yyyy'}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.status=='1'?'Hoạt động':'Không hoạt động'}}</td>
+                        <td>
+                            <ng-template [ngIf]="item.avatar != null&&item.avatar!=''" [ngIfElse]="imageNobody">
+                                <img src="{{ 'data:image/png;base64,' + item.avatar }}" style="width: 70px; height: 70px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="avatar" />
+                            </ng-template>
+                            <ng-template #imageNobody>
+                                <img src="assets/images/nobody.png" style="width: 70px; height: 70px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="avatar" />
+                            </ng-template>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>{{item.address}}</td>
+                            <td>{{item.shipAddress}}</td>
+                            <td>{{item.shipPhoneNumber}}</td>
+                            <td>{{item.createDate|date:'dd/MM/yyyy'}}</td>
+                            <td>{{item.modifyDate|date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+
+    <!--PirmeNG table -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Angular PrimeNG Datatable</h1>
+        </div>
+        <div class="col-md-12">
+            <p-table class=" table table-ellipsis" #dt1 [value]="customers" [(selection)]="selectedCustomers" [autoLayout]="true" dataKey="id" [rows]="5" [showCurrentPageReport]="true" [rowsPerPageOptions]="[5,10,25,50]" [loading]="false" styleClass="p-datatable-gridlines"
+                [paginator]="true" currentPageReportTemplate="Hiển thị {first} tới {last} trên {totalRecords} bản ghi" [globalFilterFields]="['id','userName','email','phoneNumber']">
+                <ng-template pTemplate="caption">
+                    <input pInputText type="text" #inputSearch class="form-control" (input)="dt1.filterGlobal(inputSearch.value, 'contains')" placeholder="Tìm kiếm" />
+
+                </ng-template>
+                <ng-template pTemplate="header" class="table-header">
+
+                    <tr class="table-header-style">
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="id">
+                            ID
+                            <p-sortIcon field="id"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="userName">
+                            USER_NAME
+                            <p-sortIcon field="userName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="password">PASSWORD
+                            <p-sortIcon field="password"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="firstName">FIRST_NAME
+                            <p-sortIcon field="firstName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="lastName">LAST_NAME
+                            <p-sortIcon field="lastName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="fullName">FULL_NAME
+                            <p-sortIcon field="fullName"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="birthDay">BIRTH_DAY
+                            <p-sortIcon field="birthDay"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="email">
+                            EMAIL
+                            <p-sortIcon field="email"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="status">STATUS
+                            <p-sortIcon field="status"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="avatar">AVATAR
+                            <p-sortIcon field="avatar"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="phoneNumber">
+                            PHONE_NUMBER
+                            <p-sortIcon field="phoneNumber"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="address">ADDRESS
+                            <p-sortIcon field="address"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="shipAddress">SHIP_ADDRESS
+                            <p-sortIcon field="shipAddress"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="shipPhoneNumber">SHIP_PHONE_NUMBER
+                            <p-sortIcon field="shipPhoneNumber"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="createDate">CREATE_DATE
+                            <p-sortIcon field="createDate"></p-sortIcon>
+                        </th>
+                        <th pSortableColumn="modifyDate">MODIFY_DATE
+                            <p-sortIcon field="modifyDate"></p-sortIcon>
+                        </th>
+
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>
+                            <p-columnFilter [showMenu]="false" type="text" field="id"></p-columnFilter>
+                        </th>
+                        <th>
+                            <p-columnFilter [showMenu]="false" type="text" field="userName"></p-columnFilter>
+                        </th>
+                        <th></th>
+                        <th> </th>
+                        <th> </th>
+                        <th> </th>
+                        <th> </th>
+                        <th>
+                            <p-columnFilter [showMenu]="false" type="text" field="email"></p-columnFilter>
+                        </th>
+                        <th>
+                            <select class="form-control" name="" id="" pInputText #selectStats (input)="dt1.filter(selectStats.value, 'status', '')">
+                              <option value="1" >Hoạt động</option>
+                              <option value="2">Không hoạt động</option>
+                            </select>
+                        </th>
+                        <th></th>
+                        <th>
+                            <p-columnFilter [showMenu]="false" type="text" field="phoneNumber"></p-columnFilter>
+                        </th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td>
+                        <td>{{item.id}}</td>
+                        <td>{{item.userName}}</td>
+                        <td>{{item.password}}</td>
+                        <td>{{item.firstName}}</td>
+                        <td>{{item.lastName}}</td>
+                        <td>{{item.fullName}}</td>
+                        <td>{{item.birthday|date:'dd/MM/yyyy'}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.status=='1'?'Hoạt động':'Không hoạt động'}}</td>
+                        <td>
+                            <ng-template [ngIf]="item.avatar != null&&item.avatar!=''" [ngIfElse]="imageNobody">
+                                <img src="{{ 'data:image/png;base64,' + item.avatar }}" style="width: 70px; height: 70px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="avatar" />
+                            </ng-template>
+                            <ng-template #imageNobody>
+                                <img src="assets/images/nobody.png" style="width: 70px; height: 70px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="avatar" />
+                            </ng-template>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>{{item.address}}</td>
+                            <td>{{item.shipAddress}}</td>
+                            <td>{{item.shipPhoneNumber}}</td>
+                            <td>{{item.createDate|date:'dd/MM/yyyy'}}</td>
+                            <td>{{item.modifyDate|date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+
+
+
+    <!-- table lazy loading -->
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Angular Datatable Lazy loading</h1>
+        </div>
+        <div class="form-group">
+            <select class="form-control" [(ngModel)]="quantityForPage" style="max-width:50px;">
+          <option *ngFor="let item of pageSize" value="{{item}}">{{item}}</option>
+        </select>
+        </div>
+        <div class="col-md-12">
+            <table id="tblAccountLazy" class=" table table-bordered table-ellipsis table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th><span>ID</span></th>
+                        <th><span>USER_NAME</span></th>
+                        <th><span>PASSWORD</span></th>
+                        <th><span>FIRST_NAME</span></th>
+                        <th><span>LAST_NAME</span></th>
+                        <th><span>FULL_NAME</span></th>
+                        <th><span>BIRTH_DAY</span></th>
+                        <th><span>EMAIL</span></th>
+                        <th><span>STATUS</span></th>
+                        <th><span>AVATAR</span></th>
+                        <th><span>PHONE_NUMBER</span></th>
+                        <th><span>ADDRESS</span></th>
+                        <th><span>SHIP_ADDRESS</span></th>
+                        <th><span>SHIP_PHONE_NUMBER</span></th>
+                        <th><span>CREATE_DATE</span></th>
+                        <th><span>MODIFY_DATE</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of customerLoadingLazy">
+                        <td>{{item.id}}</td>
+                        <td>{{item.userName}}</td>
+                        <td>{{item.password}}</td>
+                        <td>{{item.firstName}}</td>
+                        <td>{{item.lastName}}</td>
+                        <td>{{item.fullName}}</td>
+                        <td>{{item.birthday|date:'dd/MM/yyyy'}}</td>
+                        <td>{{item.email}}</td>
+                        <td>{{item.status=='1'?'Hoạt động':'Không hoạt động'}}</td>
+                        <td>
+                            <ng-template [ngIf]="item.avatar != null&&item.avatar!=''" [ngIfElse]="imageNobody">
+                                <img src="{{ 'data:image/png;base64,' + item.avatar }}" style="width: 70px; height: 70px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="avatar" />
+                            </ng-template>
+                            <ng-template #imageNobody>
+                                <img src="assets/images/nobody.png" style="width: 70px; height: 70px" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="avatar" />
+                            </ng-template>
+                            <td>{{item.phoneNumber}}</td>
+                            <td>{{item.address}}</td>
+                            <td>{{item.shipAddress}}</td>
+                            <td>{{item.shipPhoneNumber}}</td>
+                            <td>{{item.createDate|date:'dd/MM/yyyy HH:mm:ss'}}</td>
+                            <td>{{item.modifyDate|date:'dd/MM/yyyy'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-md-12">
+                        <label>Tổng số bản ghi : {{totalData}}</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item"><a class="page-link" (click)="loadLazyCustomer(nowPage-1,false,true)">Trước</a></li>
+                                    <li class="page-item" *ngFor="let itemPage of arrPage"><a class="page-link" (click)="loadLazyCustomer(itemPage,false,false)">{{itemPage}}</a></li>
+                                    <li class="page-item"><a class="page-link" (click)="loadLazyCustomer(nowPage+1,true,false)">Tiếp theo</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<!--End Mdal add Customer-->
+
+<!-- ============================================================== -->
+<!-- end pageheader  -->
+<!-- ============================================================== -->

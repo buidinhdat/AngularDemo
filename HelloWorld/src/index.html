@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>HelloWorld</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link href="https://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <app-root></app-root>
+
+
+    <!-- Button trigger modal -->
+    <button id="btnShowAlert" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#modelId" style="display:none"></button>
+
+    <!-- Modal -->
+    <div class="modal fade" data-keyboard="false" data-backdrop="static" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header main-color">
+                    <h5 class="modal-title">Thông báo</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <span id="messageAlert"></span>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Loading-->
+
+    <button id="btnShowLoading" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loadingModal" style="display: none;"></button>
+
+    <div id="loadingModal" class="modal" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-open" style="position: fixed; top:50%;left:50%; transform: translate(-50%,-50%);">
+            <img src="./assets/images/loading.gif" style="width: 80px;height: 80px">
+            <button id="btnHideLoading" type="button" data-dismiss="modal" style="display: none;"></button>
+
+        </div>
+    </div>
+
+
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+/* You can add global styles to this file, and also import other style files */
+
+.table.table-ellipsis tbody td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+p-datatable.beatDatatable .ui-datatable .ui-datatable-thead .ui-state-default {
+    color: #000 !important;
+    line-height: 2 !important;
+    text-align: center !important;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #ddd!important
+}
+
+
+/*css primeface table*/
+
+.p-datatable-wrapper table {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.p-datatable-wrapper table {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.p-datatable-wrapper table thead th {
+    background-color: black;
+    color: white;
+}
+
+
+/*css primeface table end */
